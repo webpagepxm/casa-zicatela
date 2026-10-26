@@ -194,7 +194,6 @@
           <div class="form-group-title first">1 / Tus datos</div>
           <div class="form-grid">
             <div class="field"><label for="name">Tu nombre *</label><input id="name" class="control" autocomplete="name" maxlength="70" name="name" required placeholder="¿Cómo te llamas?"></div>
-            <div class="field"><label for="phone">Tu WhatsApp *</label><input id="phone" class="control" name="phone" required type="tel" inputmode="tel" autocomplete="tel" maxlength="25" placeholder="10 dígitos"></div>
             <div class="field"><label for="occupants">¿Cuántas personas vivirían? *</label><select id="occupants" name="occupants" class="control" required><option value="">Seleccionar</option><option>1 persona</option><option>2 personas</option><option>3 personas</option><option>4 personas</option><option>5 o más personas</option></select></div>
             <div class="field"><label for="pets">¿Tienes mascotas? *</label><select id="pets" name="pets" class="control" required><option value="">Seleccionar</option><option>No</option><option>Sí</option></select></div>
             <div class="field wide" id="petsDetails"><label for="petDetails">¿Qué mascotas y cuántas?</label><input id="petDetails" class="control" name="petDetails" maxlength="100" placeholder="Ej. Un perro pequeño"></div>
@@ -249,16 +248,12 @@
         event.preventDefault();const f=event.currentTarget;
         if(!f.reportValidity())return;
         const data=Object.fromEntries(new FormData(f).entries());
-        const digits=data.phone.replace(/\D/g,'');
-        const phoneInput=document.getElementById('phone');
-        if(digits.length<10||digits.length>15){phoneInput.setCustomValidity('Escribe un WhatsApp válido de 10 a 15 dígitos.');phoneInput.reportValidity();phoneInput.addEventListener('input',()=>phoneInput.setCustomValidity(''),{once:true});return;}
         if(data.date<todayLocal()){dateInput.setCustomValidity('Elige una fecha de hoy en adelante.');dateInput.reportValidity();dateInput.setCustomValidity('');return;}
         const dateParts=data.date.split('-'); const prettyDate=dateParts.length===3?`${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`:data.date;
         const lines=[
           'Hola, me interesa conocer los estudios y departamentos en renta.',
           '', '*SOLICITUD DE VISITA*',
           `Nombre: ${data.name.trim()}`,
-          `Mi WhatsApp: ${data.phone.trim()}`,
           `Personas que vivirían: ${data.occupants}`,
           `Mascotas: ${data.pets}${data.pets==='Sí'?` (${data.petDetails.trim()})`:''}`,
           `Tipo de espacio: ${data.space}`,
